@@ -2,20 +2,156 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* globals.css */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Background and layout settings */
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', sans-serif;
+}
+
+.bg-gradient-to-r {
+  background: linear-gradient(to right, #1e2a47, #4b6cb7);
+}
+/* styles/globals.css */
+h1 {
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Bookings List Styling */
+.bookings-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+
+/* Booking card styles */
+.booking-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: transform 0.3s ease-in-out;
+  height: 100%;  /* Ensures cards don't shrink */
+  width: 100%;  /* Ensures cards fill their container */
+}
+
+.booking-card:hover {
+  transform: scale(1.05);
+}
+
+/* Header for cards */
+.card-header {
+  font-size: 1.25rem;
+  color: #1e2a47;
+  margin-bottom: 0.5rem;
+}
+
+/* General text styling */
+.card-detail {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  color: #3b3b3b;
+}
+
+
+/* Booking error */
+.text-error {
+  color: #e53e3e;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+/* Button animations */
+button {
+  background-color: #4b6cb7;
+  padding: 1rem;
+  color: white;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #2d4178;
+}
+
+/* Calendar container styling */
+.calendar-container {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+}
+
+
+/* Basic calendar styles */
+.calendar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+}
+
+.calendar-header button {
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.calendar-header span {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 10px;
+  padding: 20px;
+}
+
+.calendar-day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.calendar-day.empty {
+  background-color: transparent;
+}
+
+.calendar-day:hover {
+  background-color: #007BFF;
+  color: white;
+}
+
+.calendar-day.today {
+  background-color: #FF6347;
+  color: white;
 }
