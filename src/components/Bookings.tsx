@@ -11,7 +11,7 @@ interface Booking {
   contact: string;
 }
 
-export default function Booking() {
+ function Booking() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>("");
@@ -40,7 +40,7 @@ export default function Booking() {
         console.log("Fetched bookings:", data);  // Log the fetched bookings
         setBookings(data);  // Set the fetched bookings
     } catch(error) {
-      setError( error.message || "Something went wrong");
+      setError("Something went wrong");
       console.error("Error fetching bookings:", error);
     }
   };
@@ -73,3 +73,4 @@ export default function Booking() {
   );
 
 }
+export default Booking;

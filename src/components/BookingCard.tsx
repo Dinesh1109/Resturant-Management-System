@@ -1,4 +1,4 @@
-import {Booking} from "./Bookings";
+import Booking from "./Bookings";
 
 
 const BookingCard = ({ booking }: { booking: Booking }) => {

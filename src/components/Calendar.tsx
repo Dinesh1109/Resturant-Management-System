@@ -64,7 +64,7 @@ const Calendar = ({ onDateClick }: { onDateClick: (date: string) => void }) => {
           <div
             key={index}
             className={`calendar-day ${day ? '' : 'empty'} ${day === new Date().getDate() ? 'today' : ''}`}
-            onClick={() => handleDateClick(day)}
+            onClick={() =>day && handleDateClick(day)}
           >
             {day || ''}
           </div>

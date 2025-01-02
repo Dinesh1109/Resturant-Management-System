@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
-import { useRouter } from "next/router"; // Import useRouter
+import { useRouter } from "next/router";
 
 export default function BookingForm() {
   const [formData, setFormData] = useState({
@@ -11,7 +11,7 @@ export default function BookingForm() {
   });
   const [message, setMessage] = useState("");
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
-  const router = useRouter(); // Initialize router
+  const router = useRouter();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -22,11 +22,12 @@ export default function BookingForm() {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/bookings/available-times?date=${date}`);
       const result = await response.json();
-      setAvailableTimes(result.availableSlots);
+      setAvailableTimes(result.availableSlots || []);
     } catch (error) {
-      setMessage( error + "Failed to fetch available time slots.");
+      setMessage(error + "Failed to fetch available time slots.");
     }
   };
+
   useEffect(() => {
     if (formData.date) {
       fetchAvailableTimes(formData.date);
@@ -43,7 +44,7 @@ export default function BookingForm() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/bookings`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/bookings`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,7 +58,6 @@ export default function BookingForm() {
 
       const result = await response.json();
 
-      // If the backend sends a message about double booking
       if (result.message === "Slot already booked") {
         setMessage("Sorry, this time slot is already taken. Please choose another one.");
         return;
@@ -65,19 +65,20 @@ export default function BookingForm() {
 
       setMessage(result.message || "Booking created successfully!");
 
-      // After successful booking, redirect to confirmation page
       router.push({
         pathname: "/confirmation",
         query: { ...formData },
       });
     } catch (error) {
-      setMessage("Failed to create booking. Please try again.");
+      setMessage(error + "Failed to create booking. Please try again.");
     }
-
   };
 
   return (
-    <form className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-96 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl" onSubmit={handleSubmit}>
+    <form
+      className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-96 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl"
+      onSubmit={handleSubmit}
+    >
       <div className="mb-4">
         <label className="block text-gray-700 mb-2 text-lg font-semibold">Date</label>
         <input
@@ -90,13 +91,19 @@ export default function BookingForm() {
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 mb-2 text-lg font-semibold">Time</label>
-        <input
-          type="time"
+        <select
           name="time"
           value={formData.time}
           onChange={handleInputChange}
           className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-        />
+        >
+          <option value="">Select a time</option>
+          {availableTimes.map((time) => (
+            <option key={time} value={time}>
+              {time}
+            </option>
+          ))}
+        </select>
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 mb-2 text-lg font-semibold">Number of Guests</label>
@@ -129,7 +136,10 @@ export default function BookingForm() {
           className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
         />
       </div>
-      <button type="submit" className="bg-blue-500 text-white px-6 py-3 rounded-md transition-all duration-200 hover:bg-blue-600">
+      <button
+        type="submit"
+        className="bg-blue-500 text-white px-6 py-3 rounded-md transition-all duration-200 hover:bg-blue-600"
+      >
         Submit
       </button>
       {message && <p className="mt-4 text-center text-red-500">{message}</p>}
